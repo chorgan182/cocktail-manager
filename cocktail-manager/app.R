@@ -16,6 +16,10 @@ ui <- navbarPage(
   title = "Cocktail Manager",
   theme = dark,
 
+  ### enable for real-time theming
+  #theme = bs_theme(),
+
+  ### this needs to go in the header somehow
   switchInput(
     "theme_switch",
     value = TRUE,
@@ -32,6 +36,9 @@ ui <- navbarPage(
 
 
 server <- function(input, output, session) {
+
+  ### enable for real-time theming
+  #bs_themer()
 
   observe(session$setCurrentTheme(
     if (isTRUE(input$theme_switch)) dark else light

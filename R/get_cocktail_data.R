@@ -5,6 +5,7 @@ library(jsonlite)
 library(xml2)
 library(purrr)
 
+
 key <- function() {
 
   Sys.getenv("COCKTAILDB_API_KEY")
@@ -69,7 +70,7 @@ core_requester <- function(resource, ...) {
   resource <- paste0(resource, ".php")
 
   params <- list(...)
-
+  ### need to validate param args given the resource
 
   request("www.thecocktaildb.com/api/json/v2") %>%
     req_url_path_append(key()) %>%
@@ -93,25 +94,4 @@ search_drinks <- function(search_string) {
 test <- search_drinks("old")
 # why 29 cols but 51 in json response?
 # is it bc some are null and bind_rows is dropping?
-
-
-
-
-
-# api_get_drinks <- function() {
-#
-#   r <- list_drinks %>%
-#     req_perform()
-#
-#   # encoding guesses are returned as a list
-#   # each element is a df with encoding, language, and confidence
-#   # sorted in decreasing order of confidence
-#   # since only passing one string, take the first element of the list
-#   # then get the result with the highest confidence (the first)
-#   enc <- stringi::stri_enc_detect(content(r, as = "raw"))[[1]]$Encoding[[1]]
-#
-#   df <-  content(r, as = "text", encoding = enc) %>%
-#     fromJSON(flatten = TRUE) %>%
-#     pluck(1)
-#
-# }
+# i think it is bc bind_rows takes the intersection of all the columns
